@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan and Speak - Implementation Test</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .pass {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .fail {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        button {
+            padding: 8px 16px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Scan and Speak - Implementation Test</h1>
+    
+    <div class="test-section">
+        <h2>Visual Test</h2>
+        <p>The application is loaded in the iframe below. Test the following:</p>
+        <ul>
+            <li>Click the theme toggle button - verify all elements change colors properly</li>
+            <li>Type messages in different languages - verify language detection</li>
+            <li>Click the microphone button - verify permission request and visual feedback</li>
+            <li>Resize the window - verify responsive design</li>
+        </ul>
+        <iframe src="frontend.html" id="testFrame"></iframe>
+    </div>
+    
+    <div class="test-section">
+        <h2>Automated Tests</h2>
+        <button onclick="runAllTests()">Run All Tests</button>
+        <div id="testResults"></div>
+    </div>
+    
+    <script>
+        function addTestResult(test, passed, details = '') {
+            const resultsDiv = document.getElementById('testResults');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `test-result ${passed ? 'pass' : 'fail'}`;
+            resultDiv.innerHTML = `<strong>${test}:</strong> ${passed ? 'PASSED' : 'FAILED'} ${details ? '- ' + details : ''}`;
+            resultsDiv.appendChild(resultDiv);
+        }
+        
+        function runAllTests() {
+            const resultsDiv = document.getElementById('testResults');
+            resultsDiv.innerHTML = '';
+            
+            // Test 1: Check if iframe loaded
+            const iframe = document.getElementById('testFrame');
+            addTestResult('Page Load Test', iframe.contentDocument !== null, 'Page loaded successfully');
+            
+            if (iframe.contentDocument) {
+                const iframeDoc = iframe.contentDocument;
+                const iframeWin = iframe.contentWindow;
+                
+                // Test 2: Check critical elements exist
+                const header = iframeDoc.querySelector('.header');
+                const chatContainer = iframeDoc.getElementById('chatContainer');
+                const messageInput = iframeDoc.getElementById('messageInput');
+                const micButton = iframeDoc.getElementById('micButton');
+                const themeToggle = iframeDoc.getElementById('themeToggle');
+                
+                addTestResult('Critical Elements Test', 
+                    header && chatContainer && messageInput && micButton && themeToggle,
+                    'All critical elements found');
+                
+                // Test 3: Check CSS variables
+                const rootStyles = iframeWin.getComputedStyle(iframeDoc.documentElement);
+                const hasCSSVars = rootStyles.getPropertyValue('--color-bg-primary').trim() !== '';
+                addTestResult('CSS Variables Test', hasCSSVars, 'CSS variables properly defined');
+                
+                // Test 4: Check dark mode toggle
+                const body = iframeDoc.body;
+                const initialDarkMode = body.classList.contains('dark-mode');
+                themeToggle.click();
+                const toggledDarkMode = body.classList.contains('dark-mode');
+                const darkModeWorks = initialDarkMode !== toggledDarkMode;
+                addTestResult('Dark Mode Toggle Test', darkModeWorks, 
+                    `Mode changed from ${initialDarkMode ? 'dark' : 'light'} to ${toggledDarkMode ? 'dark' : 'light'}`);
+                
+                // Test 5: Check localStorage
+                const hasLocalStorage = typeof(Storage) !== "undefined";
+                addTestResult('LocalStorage Support Test', hasLocalStorage, 
+                    hasLocalStorage ? 'LocalStorage supported' : 'LocalStorage not supported');
+                
+                // Test 6: Check Speech Recognition
+                const hasSpeechRecognition = 'SpeechRecognition' in iframeWin || 'webkitSpeechRecognition' in iframeWin;
+                addTestResult('Speech Recognition Support Test', hasSpeechRecognition,
+                    hasSpeechRecognition ? 'Speech Recognition API available' : 'Speech Recognition not supported');
+                
+                // Test 7: Check responsive meta tag
+                const viewportMeta = iframeDoc.querySelector('meta[name="viewport"]');
+                const hasViewport = viewportMeta && viewportMeta.content.includes('width=device-width');
+                addTestResult('Responsive Design Test', hasViewport, 'Viewport meta tag configured');
+                
+                // Test 8: Check accessibility
+                const micButtonLabel = micButton.getAttribute('aria-label');
+                const inputLabel = messageInput.getAttribute('aria-label');
+                const hasAccessibility = micButtonLabel && inputLabel;
+                addTestResult('Accessibility Test', hasAccessibility, 
+                    'ARIA labels present on interactive elements');
+                
+                // Test 9: Check animations
+                const hasAnimations = iframeDoc.styleSheets[0].cssRules.length > 0;
+                addTestResult('Animations Test', hasAnimations, 'CSS animations defined');
+                
+                // Test 10: Language detection function
+                if (iframeWin.LanguageDetector) {
+                    const arabicDetected = iframeWin.LanguageDetector.detectLanguage('مرحبا') === 'ar';
+                    const chineseDetected = iframeWin.LanguageDetector.detectLanguage('你好') === 'zh';
+                    const englishDetected = iframeWin.LanguageDetector.detectLanguage('Hello') === 'en';
+                    const langDetectionWorks = arabicDetected && chineseDetected && englishDetected;
+                    addTestResult('Language Detection Test', langDetectionWorks,
+                        'Basic language detection working');
+                }
+                
+                // Summary
+                const allResults = resultsDiv.querySelectorAll('.test-result');
+                const passedTests = resultsDiv.querySelectorAll('.test-result.pass').length;
+                const summary = document.createElement('div');
+                summary.className = 'test-result info';
+                summary.innerHTML = `<strong>Summary:</strong> ${passedTests} out of ${allResults.length} tests passed`;
+                resultsDiv.appendChild(summary);
+            }
+        }
+    </script>
+</body>
+</html>
