@@ -1,0 +1,27 @@
+{
+  "common": {
+    "appName": "ScanSpeak Shop",
+    "search": "Search products...",
+    "cart": "Cart",
+    "addToCart": "Add to Cart",
+    "language": "Language",
+    "home": "Home",
+    "chat": "Chat",
+    "voice": "Voice"
+  },
+  "home": {
+    "title": "Welcome to ScanSpeak Shop",
+    "subtitle": "Shop in your language, powered by AI"
+  },
+  "chat": {
+    "title": "AI Shopping Assistant",
+    "placeholder": "Ask me anything about our products...",
+    "send": "Send"
+  },
+  "voice": {
+    "title": "Voice Shopping",
+    "speak": "Tap to speak",
+    "listening": "Listening...",
+    "processing": "Processing..."
+  }
+}
