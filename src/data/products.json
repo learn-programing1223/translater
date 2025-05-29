@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "name": "Whole Milk",
+    "category": "Dairy",
+    "aisle": "Aisle 3",
+    "section": "Refrigerated Section",
+    "price": 3.99,
+    "brand": "Fresh Farm",
+    "keywords": ["milk", "dairy", "leche", "lait", "milch", "latte", "leite"]
+  },
+  {
+    "id": 2,
+    "name": "Bread",
+    "category": "Bakery",
+    "aisle": "Aisle 1",
+    "section": "Bakery Section",
+    "price": 2.49,
+    "brand": "Daily Fresh",
+    "keywords": ["bread", "pan", "pain", "brot", "pane", "pão"]
+  },
+  {
+    "id": 3,
+    "name": "Bananas",
+    "category": "Produce",
+    "aisle": "Produce Section",
+    "section": "Fresh Fruit",
+    "price": 1.29,
+    "brand": "Organic Valley",
+    "keywords": ["bananas", "plátanos", "bananes", "bananen", "banane"]
+  },
+  {
+    "id": 4,
+    "name": "Chicken Breast",
+    "category": "Meat",
+    "aisle": "Aisle 5",
+    "section": "Meat Counter",
+    "price": 8.99,
+    "brand": "Farm Fresh",
+    "keywords": ["chicken", "pollo", "poulet", "hähnchen", "pollo", "frango"]
+  },
+  {
+    "id": 5,
+    "name": "Rice",
+    "category": "Grains",
+    "aisle": "Aisle 7",
+    "section": "International Foods",
+    "price": 4.99,
+    "brand": "Golden Grain",
+    "keywords": ["rice", "arroz", "riz", "reis", "riso", "arroz"]
+  },
+  {
+    "id": 6,
+    "name": "Tomatoes",
+    "category": "Produce",
+    "aisle": "Produce Section",
+    "section": "Fresh Vegetables",
+    "price": 2.99,
+    "brand": "Garden Fresh",
+    "keywords": ["tomatoes", "tomates", "tomates", "tomaten", "pomodori", "tomates"]
+  },
+  {
+    "id": 7,
+    "name": "Olive Oil",
+    "category": "Cooking",
+    "aisle": "Aisle 4",
+    "section": "Cooking Oils",
+    "price": 12.99,
+    "brand": "Mediterranean Gold",
+    "keywords": ["olive oil", "aceite de oliva", "huile d'olive", "olivenöl", "olio d'oliva", "azeite"]
+  },
+  {
+    "id": 8,
+    "name": "Eggs",
+    "category": "Dairy",
+    "aisle": "Aisle 3",
+    "section": "Refrigerated Section",
+    "price": 3.49,
+    "brand": "Farm Fresh",
+    "keywords": ["eggs", "huevos", "œufs", "eier", "uova", "ovos"]
+  },
+  {
+    "id": 9,
+    "name": "Cheese",
+    "category": "Dairy",
+    "aisle": "Aisle 3",
+    "section": "Cheese Section",
+    "price": 5.99,
+    "brand": "Artisan Select",
+    "keywords": ["cheese", "queso", "fromage", "käse", "formaggio", "queijo"]
+  },
+  {
+    "id": 10,
+    "name": "Pasta",
+    "category": "Grains",
+    "aisle": "Aisle 6",
+    "section": "International Foods",
+    "price": 1.99,
+    "brand": "Italian Classic",
+    "keywords": ["pasta", "pasta", "pâtes", "nudeln", "pasta", "massa"]
+  }
+]

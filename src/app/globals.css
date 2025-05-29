@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #28C6B1;
+  --secondary: #F1F3F5;
+  --text-dark: #212529;
+  --text-light: #F8F9FA;
+  --error: #DC2626;
+  --success: #10B981;
+  --font-primary: Inter, system-ui, sans-serif;
+  --font-size-base: 16px;
+  --line-height-base: 1.5;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --transition-fast: 150ms ease;
+  --transition-normal: 300ms ease;
+  --transition-slow: 500ms ease;
+}
+
+body {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  background-color: #ffffff;
+  color: var(--text-dark);
+}
