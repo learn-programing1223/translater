@@ -54,7 +54,9 @@ export default function VoiceInterface() {
         startRecordingTimer();
       },
       onRecordingStop: () => {
+        console.log('onRecordingStop callback triggered'); // DEBUG
         setIsRecording(false);
+        setIsProcessing(false);
         stopRecordingTimer();
       }
     });
@@ -113,6 +115,12 @@ export default function VoiceInterface() {
       setError(null);
       setStatusMessage(`Transcribed via ${result.method}: "${result.text}"`);
 
+      console.log('=== TRANSCRIPTION SUCCESS ==='); // DEBUG
+      console.log('Method:', result.method); // DEBUG
+      console.log('Text:', result.text); // DEBUG
+      console.log('Detected Language:', result.language); // DEBUG
+      console.log('============================'); // DEBUG
+
       // Add user message
       const userMessage: VoiceMessage = {
         id: Date.now().toString(),
@@ -124,8 +132,8 @@ export default function VoiceInterface() {
 
       setMessages(prev => [...prev, userMessage]);
       
-      // Get AI response
-      await getAIResponse(result.text);
+      // Get AI response with explicit language
+      await getAIResponse(result.text, result.language);
       
     } catch (error) {
       console.error('Failed to process transcription:', error);
@@ -190,12 +198,21 @@ export default function VoiceInterface() {
 
   // Stop recording using VoiceRecognitionManager
   const stopRecording = () => {
+    console.log('Stop button clicked'); // DEBUG
+    
     if (!voiceManagerRef.current) {
+      console.error('Voice manager not initialized'); // DEBUG
       setError('Voice recognition not initialized');
       return;
     }
 
     try {
+      console.log('Stopping recording - Current state:', {
+        isRecording,
+        isProcessing,
+        managerState: voiceManagerRef.current.getRecordingState()
+      }); // DEBUG
+      
       // Immediately update UI state
       setIsRecording(false);
       setIsProcessing(true);
@@ -203,6 +220,7 @@ export default function VoiceInterface() {
       
       // Stop the recording
       voiceManagerRef.current.stopRecording();
+      console.log('stopRecording() called successfully'); // DEBUG
       
     } catch (error) {
       console.error('Failed to stop recording:', error);
@@ -234,8 +252,13 @@ export default function VoiceInterface() {
   };
 
 
-  const getAIResponse = async (userInput: string) => {
+  const getAIResponse = async (userInput: string, detectedLanguage?: string) => {
     try {
+      console.log('=== AI RESPONSE REQUEST ==='); // DEBUG
+      console.log('User Input:', userInput); // DEBUG
+      console.log('Language for AI:', detectedLanguage); // DEBUG
+      console.log('=========================='); // DEBUG
+      
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
@@ -243,7 +266,10 @@ export default function VoiceInterface() {
           'Accept': 'application/json',
           'Accept-Charset': 'utf-8'
         },
-        body: JSON.stringify({ message: userInput }),
+        body: JSON.stringify({ 
+          message: userInput,
+          language: detectedLanguage 
+        }),
       });
 
       if (!response.ok) {
@@ -272,6 +298,11 @@ export default function VoiceInterface() {
               aiLanguage = data.language;
               
               if (data.done) {
+                console.log('=== AI RESPONSE COMPLETE ==='); // DEBUG
+                console.log('AI Response:', fullResponse); // DEBUG
+                console.log('AI Language:', aiLanguage); // DEBUG
+                console.log('============================'); // DEBUG
+                
                 const aiMessage: VoiceMessage = {
                   id: (Date.now() + 1).toString(),
                   content: fullResponse,
@@ -459,15 +490,15 @@ export default function VoiceInterface() {
           {/* Microphone Button */}
           <button
             onClick={isRecording ? stopRecording : startRecording}
-            disabled={isProcessing || permissionStatus === 'denied' || !browserSupport?.mediaRecorder}
+            disabled={permissionStatus === 'denied' || !browserSupport?.mediaRecorder}
             className={`w-20 h-20 rounded-full flex items-center justify-center transition-all ${
               isRecording
-                ? 'bg-red-500 hover:bg-red-600 animate-pulse'
+                ? 'bg-red-500 hover:bg-red-600 animate-pulse cursor-pointer'
                 : isProcessing
-                ? 'bg-gray-400'
-                : 'bg-primary hover:bg-primary/90'
+                ? 'bg-yellow-500 animate-pulse cursor-wait'
+                : 'bg-primary hover:bg-primary/90 cursor-pointer'
             } ${
-              isProcessing || permissionStatus === 'denied' || !browserSupport?.mediaRecorder
+              permissionStatus === 'denied' || !browserSupport?.mediaRecorder
                 ? 'opacity-50 cursor-not-allowed'
                 : ''
             }`}

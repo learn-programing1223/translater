@@ -2,6 +2,9 @@ export function detectLanguage(text: string): string {
   // Clean the text and convert to lowercase for Latin script detection
   const cleanText = text.toLowerCase().trim();
   
+  console.log('Language detection input:', text); // DEBUG
+  console.log('Cleaned text:', cleanText); // DEBUG
+  
   // Enhanced Unicode script detection (check these first - most reliable)
   const scriptPatterns = {
     // East Asian Scripts
@@ -52,7 +55,10 @@ export function detectLanguage(text: string): string {
   
   // Enhanced Latin script detection with better patterns
   const latinPatterns = {
-    // Romance Languages
+    // ENGLISH FIRST - HIGHEST PRIORITY
+    'en': /\b(hello|hi|hey|where|what|how|when|why|who|which|can|could|would|should|will|shall|the|and|or|but|if|then|this|that|these|those|i|you|he|she|it|we|they|me|him|her|us|them|my|your|his|her|its|our|their|am|is|are|was|were|have|has|had|do|does|did|get|got|go|went|come|came|see|saw|know|knew|think|thought|want|need|like|love|make|take|give|find|looking|bread|milk|store|shop|price|cost|thank|thanks|please|sorry|excuse|good|bad|yes|no|okay|ok)\b/i,
+    
+    // Romance Languages (lower priority than English)
     'es': /\b(dónde|está|cuánto|cuesta|precio|ubicación|pasillo|¿|¡|el|la|los|las|qué|cómo|cuándo|por|para|con|sin|muy|más|menos|bien|mal|sí|no|gracias|hola|adiós)\b/i,
     'fr': /\b(où|est|combien|coûte|prix|emplacement|allée|le|la|les|que|comment|quand|pour|avec|sans|très|plus|moins|bien|mal|oui|non|merci|bonjour|au revoir|ç|à|è|é|ê)\b/i,
     'pt': /\b(onde|está|quanto|custa|preço|localização|corredor|o|a|os|as|que|como|quando|para|com|sem|muito|mais|menos|bem|mal|sim|não|obrigado|olá|tchau|ã|õ|ç)\b/i,
@@ -81,11 +87,23 @@ export function detectLanguage(text: string): string {
     'sl': /\b(kje|je|koliko|stane|cena|lokacija|hodnik|kako|kdaj|kaj|za|z|brez|zelo|več|manj|dobro|slabo|da|ne|hvala|pozdravljeni|nasvidenje|č|š|ž)\b/i,
   };
   
-  // Check Latin script patterns
+  // Check Latin script patterns with confidence scoring
+  const latinMatches: { lang: string; matches: number }[] = [];
+  
   for (const [lang, pattern] of Object.entries(latinPatterns)) {
-    if (pattern.test(cleanText)) {
-      return lang;
+    const matches = (cleanText.match(pattern) || []).length;
+    if (matches > 0) {
+      latinMatches.push({ lang, matches });
+      console.log(`${lang.toUpperCase()} matches:`, matches, 'patterns found'); // DEBUG
     }
+  }
+  
+  // Sort by most matches and return the best match
+  if (latinMatches.length > 0) {
+    latinMatches.sort((a, b) => b.matches - a.matches);
+    const bestMatch = latinMatches[0];
+    console.log('Best language match:', bestMatch.lang.toUpperCase(), 'with', bestMatch.matches, 'matches'); // DEBUG
+    return bestMatch.lang;
   }
   
   // Fallback: detect based on character frequency for scripts we might have missed
@@ -100,6 +118,7 @@ export function detectLanguage(text: string): string {
   const maxScript = Object.entries(scriptCounts).reduce((a, b) => scriptCounts[a[0] as keyof typeof scriptCounts] > scriptCounts[b[0] as keyof typeof scriptCounts] ? a : b);
   
   if (maxScript[1] > 0) {
+    console.log('Script fallback detection:', maxScript[0], 'with', maxScript[1], 'characters'); // DEBUG
     switch (maxScript[0]) {
       case 'cyrillic': return 'ru';
       case 'arabic': return 'ar';  
@@ -108,5 +127,6 @@ export function detectLanguage(text: string): string {
     }
   }
   
+  console.log('No language patterns found, defaulting to English'); // DEBUG
   return 'en'; // Default to English
 }

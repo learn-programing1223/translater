@@ -79,7 +79,7 @@ function getMockResponse(message: string, language: string): string {
 
 export async function POST(request: NextRequest) {
   try {
-    const { message } = await request.json();
+    const { message, language } = await request.json();
     
     if (!message || typeof message !== 'string') {
       return NextResponse.json(
@@ -88,7 +88,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const detectedLanguage = detectLanguage(message);
+    // Use provided language or detect from message
+    const detectedLanguage = language || detectLanguage(message);
+    
+    console.log('=== CHAT API REQUEST ==='); // DEBUG
+    console.log('Message:', message); // DEBUG
+    console.log('Provided Language:', language); // DEBUG
+    console.log('Final Language:', detectedLanguage); // DEBUG
+    console.log('======================='); // DEBUG
+    
     const response = getMockResponse(message, detectedLanguage);
 
     const encoder = new TextEncoder();

@@ -53,15 +53,17 @@ export async function POST(request: NextRequest) {
     console.log(`Processing audio file: ${audioFile.name}, size: ${audioFile.size} bytes, type: ${audioFile.type}`);
 
     try {
-      // For development: Mock Whisper response since OpenAI quota exceeded
-      // In production, this would use OpenAI Whisper like this:
-      /*
+      // Use OpenAI Whisper for speech transcription with language auto-detection
+      console.log('Sending audio to OpenAI Whisper API...');
+      
       const transcription = await openai.audio.transcriptions.create({
         file: audioFile,
         model: 'whisper-1',
         response_format: 'json',
         language: undefined, // Auto-detect language
       });
+
+      console.log('OpenAI Whisper response:', transcription);
 
       if (!transcription.text || transcription.text.trim() === '') {
         return NextResponse.json(
@@ -78,14 +80,6 @@ export async function POST(request: NextRequest) {
         language: transcription.language || 'en',
         success: true
       });
-      */
-      
-      // Return mock failure to trigger Web Speech API fallback
-      return NextResponse.json({
-        success: false,
-        error: 'OpenAI Whisper API quota exceeded. Using Web Speech API fallback.',
-        fallbackToWebSpeech: true
-      }, { status: 500 });
 
     } catch (whisperError: any) {
       console.error('Whisper API Error:', whisperError);
