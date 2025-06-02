@@ -13,20 +13,23 @@ export default function Navigation() {
   ];
 
   return (
-    <nav className="bg-white border-t border-gray-200 px-4 py-2">
-      <div className="flex justify-center space-x-8">
+    <nav className="relative bg-white/90 backdrop-blur-lg border-t border-gray-200 shadow-lg">
+      <div className="flex justify-center space-x-6 px-4 py-3">
         {navItems.map((item) => (
           <Link
             key={item.href}
             href={item.href}
-            className={`flex flex-col items-center py-2 px-4 rounded-lg transition-colors ${
+            className={`relative flex flex-col items-center py-2 px-6 rounded-2xl transition-all duration-300 ${
               pathname === item.href
-                ? 'bg-primary text-white'
-                : 'text-gray-600 hover:text-primary hover:bg-primary/10'
+                ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg scale-105'
+                : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
             }`}
           >
-            <span className="text-lg mb-1">{item.icon}</span>
-            <span className="text-xs font-medium">{item.label}</span>
+            <span className="text-xl mb-1">{item.icon}</span>
+            <span className="text-xs font-semibold">{item.label}</span>
+            {pathname === item.href && (
+              <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full" />
+            )}
           </Link>
         ))}
       </div>

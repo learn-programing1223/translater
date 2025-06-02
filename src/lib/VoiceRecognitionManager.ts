@@ -180,7 +180,7 @@ export class VoiceRecognitionManager {
   private setupAudioLevelMonitoring(stream: MediaStream): void {
     try {
       // Create audio context for level monitoring
-      this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
       this.analyser = this.audioContext.createAnalyser();
       
       // Configure analyser for level detection
@@ -397,8 +397,28 @@ export class VoiceRecognitionManager {
 
   // Enhanced OpenAI Whisper transcription with proper error handling
   private async transcribeWithWhisper(audioBlob: Blob): Promise<{text: string, language: string}> {
-    // Convert to proper format for Whisper
-    const audioFile = new File([audioBlob], 'recording.webm', { type: audioBlob.type });
+    // Convert to proper format for Whisper with correct file extension and MIME type
+    let fileName = 'recording.wav';
+    let mimeType = audioBlob.type || 'audio/wav';
+    
+    // Determine correct file extension based on MIME type
+    if (mimeType.includes('webm')) {
+      fileName = 'recording.webm';
+    } else if (mimeType.includes('mp4') || mimeType.includes('m4a')) {
+      fileName = 'recording.mp4';
+    } else if (mimeType.includes('ogg')) {
+      fileName = 'recording.ogg';
+    } else if (mimeType.includes('wav')) {
+      fileName = 'recording.wav';
+    } else {
+      // Default to wav for unknown types
+      fileName = 'recording.wav';
+      mimeType = 'audio/wav';
+    }
+    
+    console.log(`Creating audio file: ${fileName}, original MIME: ${audioBlob.type}, final MIME: ${mimeType}`);
+    
+    const audioFile = new File([audioBlob], fileName, { type: mimeType });
     
     const formData = new FormData();
     formData.append('file', audioFile);
@@ -484,6 +504,9 @@ export class VoiceRecognitionManager {
 
       const recognition = new SpeechRecognition();
       
+      // Store reference for stopping
+      (window as any).speechRecognitionInstance = recognition;
+      
       recognition.continuous = false;
       recognition.interimResults = false;
       recognition.maxAlternatives = 1;
@@ -500,16 +523,20 @@ export class VoiceRecognitionManager {
         this.callbacks.onStatusUpdate('Listening with Web Speech API... Speak now!');
         this.callbacks.onRecordingStart(); // Trigger recording UI state
         
-        // Set timeout to prevent hanging
+        // Set timeout to prevent hanging (increased to 15 seconds)
         timeoutId = setTimeout(() => {
+          console.log('Web Speech API timeout - stopping recognition');
           recognition.abort();
-          reject(new Error('Speech recognition timeout - please try again'));
-        }, 10000);
+          reject(new Error('Speech recognition timeout after 15 seconds - please try again'));
+        }, 15000);
       };
 
       recognition.onresult = (event: any) => {
         if (timeoutId) clearTimeout(timeoutId);
         this.callbacks.onRecordingStop(); // Stop recording UI state
+        
+        // Clear the stored reference
+        (window as any).speechRecognitionInstance = null;
         
         console.log('🎯 Web Speech API transcription received');
         
@@ -537,6 +564,9 @@ export class VoiceRecognitionManager {
         if (timeoutId) clearTimeout(timeoutId);
         this.callbacks.onRecordingStop(); // Stop recording UI state
         
+        // Clear the stored reference
+        (window as any).speechRecognitionInstance = null;
+        
         console.error('❌ Web Speech API error:', event.error);
         let errorMessage = 'Web Speech API failed';
         
@@ -557,7 +587,12 @@ export class VoiceRecognitionManager {
             errorMessage = 'Network error during speech recognition. Please check your internet connection.';
             break;
           case 'aborted':
-            errorMessage = 'Speech recognition was aborted';
+            // Don't treat manual abort as an error if it was done intentionally
+            if (this.manuallyStopped) {
+              console.log('Web Speech API was manually stopped - not an error');
+              return; // Don't reject, just return silently
+            }
+            errorMessage = 'Speech recognition was aborted unexpectedly';
             break;
           default:
             errorMessage = `Speech recognition error: ${event.error}`;
@@ -569,6 +604,9 @@ export class VoiceRecognitionManager {
       recognition.onend = () => {
         if (timeoutId) clearTimeout(timeoutId);
         this.callbacks.onRecordingStop(); // Ensure recording UI state stops
+        
+        // Clear the stored reference
+        (window as any).speechRecognitionInstance = null;
         
         console.log('🔚 Web Speech API session ended');
         
@@ -627,6 +665,17 @@ export class VoiceRecognitionManager {
     // Stop the entire voice processing flow
     this.isProcessingVoice = false;
     this.isRecording = false;
+    
+    // Stop any active Web Speech recognition
+    if ((window as any).speechRecognitionInstance) {
+      console.log('Stopping active Web Speech recognition'); // DEBUG
+      try {
+        (window as any).speechRecognitionInstance.abort();
+        (window as any).speechRecognitionInstance = null;
+      } catch (error) {
+        console.warn('Error stopping Web Speech recognition:', error);
+      }
+    }
     
     // Stop MediaRecorder if it's recording
     if (this.mediaRecorder && this.mediaRecorder.state === 'recording') {

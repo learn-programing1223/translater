@@ -490,7 +490,7 @@ export default function VoiceInterface() {
           {/* Microphone Button */}
           <button
             onClick={isRecording ? stopRecording : startRecording}
-            disabled={permissionStatus === 'denied' || !browserSupport?.mediaRecorder}
+            disabled={permissionStatus === 'denied' || (!browserSupport?.mediaRecorder && !browserSupport?.webSpeech)}
             className={`w-20 h-20 rounded-full flex items-center justify-center transition-all ${
               isRecording
                 ? 'bg-red-500 hover:bg-red-600 animate-pulse cursor-pointer'
@@ -498,7 +498,7 @@ export default function VoiceInterface() {
                 ? 'bg-yellow-500 animate-pulse cursor-wait'
                 : 'bg-primary hover:bg-primary/90 cursor-pointer'
             } ${
-              permissionStatus === 'denied' || !browserSupport?.mediaRecorder
+              permissionStatus === 'denied' || (!browserSupport?.mediaRecorder && !browserSupport?.webSpeech)
                 ? 'opacity-50 cursor-not-allowed'
                 : ''
             }`}
@@ -522,10 +522,10 @@ export default function VoiceInterface() {
             </div>
           )}
 
-          {browserSupport && !browserSupport.mediaRecorder && (
+          {browserSupport && !browserSupport.mediaRecorder && !browserSupport.webSpeech && (
             <div className="text-center text-red-600 text-sm">
-              <p>Voice recording not supported</p>
-              <p>Try using a modern browser</p>
+              <p>Voice recognition not supported</p>
+              <p>Try using a modern browser like Chrome or Safari</p>
             </div>
           )}
 

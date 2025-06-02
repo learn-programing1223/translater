@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json({
         text: transcription.text.trim(),
-        language: transcription.language || 'en',
+        language: 'auto', // Whisper auto-detects but doesn't return the language
         success: true
       });
 

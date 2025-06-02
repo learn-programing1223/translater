@@ -208,52 +208,73 @@ export default function ChatInterface() {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-white">
-      {/* Header */}
-      <div className="bg-primary text-white p-4 shadow-md">
-        <h1 className="text-xl font-semibold">Scan & Speak Assistant</h1>
-        <p className="text-sm opacity-90">Ask about products in any language</p>
+    <div className="flex flex-col h-screen bg-gradient-to-br from-blue-100 to-cyan-100">
+      {/* Premium Header with Glass Effect */}
+      <div className="relative">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500" />
+        <div className="relative glass p-5 shadow-2xl">
+          <h1 className="text-2xl font-bold text-white drop-shadow-lg">Scan & Speak Assistant</h1>
+          <p className="text-sm text-white/90 mt-1">Ask about products in any language</p>
+        </div>
       </div>
 
       {/* Messages Container */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-transparent to-white/50">
         {messages.length === 0 && (
-          <div className="text-center text-gray-500 mt-8">
-            <p className="text-lg">Welcome! Ask me about products in our store.</p>
-            <p className="text-sm mt-2">Try: "Where is milk?" or "¿Dónde está la leche?"</p>
+          <div className="text-center mt-12 animate-fade-in">
+            <div className="inline-flex items-center justify-center w-24 h-24 mb-6 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full shadow-2xl">
+              <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+              </svg>
+            </div>
+            <p className="text-xl font-semibold text-gray-800">Welcome! Ask me about products in our store.</p>
+            <p className="text-base mt-3 text-gray-600">Try: "Where is milk?" or "¿Dónde está la leche?"</p>
           </div>
         )}
 
-        {messages.map((message) => (
+        {messages.map((message, index) => (
           <div
             key={message.id}
-            className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
+            className={`flex ${message.isUser ? 'justify-end' : 'justify-start'} animate-slide-up`}
+            style={{ animationDelay: `${index * 50}ms` }}
           >
             <div
-              className={`max-w-sm rounded-lg px-4 py-2 ${
+              className={`max-w-[80%] md:max-w-md rounded-2xl px-5 py-3 shadow-xl transform hover:scale-[1.02] transition-all duration-300 ${
                 message.isUser
-                  ? 'bg-primary text-white ml-auto'
-                  : 'bg-secondary text-gray-800'
+                  ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white'
+                  : 'glass text-gray-800 border border-gray-200'
               }`}
             >
-              <div className="text-xs opacity-75 mb-1">
-                {getLanguageDisplay(message.language)}
+              <div className={`text-xs font-semibold mb-2 flex items-center gap-2 ${
+                message.isUser ? 'text-white/90' : 'text-gray-600'
+              }`}>
+                <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-[10px] font-bold ${
+                  message.isUser ? 'bg-white/30 text-white' : 'bg-gray-200 text-gray-700'
+                }`}>
+                  {getLanguageDisplay(message.language)}
+                </span>
+                <span>
+                  {message.isUser ? 'You' : 'Assistant'}
+                </span>
               </div>
-              <div className="text-sm whitespace-pre-wrap">{message.content}</div>
+              <div className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</div>
             </div>
           </div>
         ))}
 
         {/* Streaming Message */}
         {isStreaming && streamingMessage && (
-          <div className="flex justify-start">
-            <div className="bg-secondary text-gray-800 rounded-lg px-4 py-2 max-w-sm">
-              <div className="text-xs text-gray-500 mb-1">
-                {getLanguageDisplay(detectLanguage(streamingMessage))}
+          <div className="flex justify-start animate-fade-in">
+            <div className="glass text-gray-800 rounded-2xl px-5 py-3 max-w-[80%] md:max-w-md shadow-xl border border-gray-200 animate-pulse-soft">
+              <div className="text-xs text-gray-600 font-semibold mb-2 flex items-center gap-2">
+                <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-gray-200 text-[10px] font-bold">
+                  {getLanguageDisplay(detectLanguage(streamingMessage))}
+                </span>
+                <span>Assistant</span>
               </div>
-              <div className="text-sm whitespace-pre-wrap">
+              <div className="text-sm leading-relaxed whitespace-pre-wrap">
                 {streamingMessage}
-                <span className="animate-pulse">|</span>
+                <span className="inline-block w-1 h-4 bg-gray-400 ml-1 animate-pulse" />
               </div>
             </div>
           </div>
@@ -261,11 +282,15 @@ export default function ChatInterface() {
 
         {/* Loading Indicator */}
         {isLoading && !isStreaming && (
-          <div className="flex justify-start">
-            <div className="bg-secondary text-gray-800 rounded-lg px-4 py-2">
-              <div className="flex items-center space-x-2">
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
-                <span className="text-sm">Thinking...</span>
+          <div className="flex justify-start animate-fade-in">
+            <div className="glass text-gray-800 rounded-2xl px-5 py-3 shadow-xl border border-gray-200">
+              <div className="flex items-center space-x-3">
+                <div className="flex space-x-1.5">
+                  <div className="w-2.5 h-2.5 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                  <div className="w-2.5 h-2.5 bg-cyan-500 rounded-full animate-bounce" style={{ animationDelay: '200ms' }} />
+                  <div className="w-2.5 h-2.5 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '400ms' }} />
+                </div>
+                <span className="text-sm font-medium text-gray-700">Thinking...</span>
               </div>
             </div>
           </div>
@@ -273,15 +298,22 @@ export default function ChatInterface() {
 
         {/* Error Message */}
         {error && (
-          <div className="flex justify-center">
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded-lg text-sm">
-              {error}
-              <button
-                onClick={() => setError(null)}
-                className="ml-2 text-red-500 hover:text-red-700"
-              >
-                ✕
-              </button>
+          <div className="flex justify-center animate-fade-in">
+            <div className="bg-red-50 border border-red-300 text-red-800 px-5 py-3 rounded-2xl shadow-lg max-w-md">
+              <div className="flex items-center gap-3">
+                <svg className="w-5 h-5 text-red-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span className="text-sm font-medium">{error}</span>
+                <button
+                  onClick={() => setError(null)}
+                  className="ml-auto text-red-600 hover:text-red-800 transition-colors p-1"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         )}
@@ -289,26 +321,39 @@ export default function ChatInterface() {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Form */}
-      <div className="border-t bg-white p-4">
-        <form onSubmit={handleSubmit} className="flex space-x-2">
-          <input
-            ref={inputRef}
-            type="text"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            placeholder="Ask about products in any language..."
-            className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-            disabled={isLoading || isStreaming}
-          />
-          <button
-            type="submit"
-            disabled={!inputValue.trim() || isLoading || isStreaming}
-            className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            Send
-          </button>
-        </form>
+      {/* Premium Input Form */}
+      <div className="relative">
+        <div className="absolute inset-0 bg-gradient-to-t from-white to-gray-50" />
+        <div className="relative glass border-t border-gray-200 p-5 shadow-2xl">
+          <form onSubmit={handleSubmit} className="flex gap-3">
+            <div className="relative flex-1">
+              <input
+                ref={inputRef}
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="Ask about products in any language..."
+                className="w-full glass border-2 border-gray-300 rounded-2xl px-5 py-3.5 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 shadow-md hover:shadow-lg"
+                disabled={isLoading || isStreaming}
+              />
+              {inputValue && (
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-600 bg-gray-100 px-3 py-1.5 rounded-full font-semibold animate-fade-in">
+                  {getLanguageDisplay(detectLanguage(inputValue))}
+                </div>
+              )}
+            </div>
+            <button
+              type="submit"
+              disabled={!inputValue.trim() || isLoading || isStreaming}
+              className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-8 py-3.5 rounded-2xl font-semibold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105 active:scale-95 flex items-center gap-2"
+            >
+              <span>Send</span>
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

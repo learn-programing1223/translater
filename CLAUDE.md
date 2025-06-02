@@ -608,4 +608,189 @@ curl -X POST http://localhost:3000/api/chat \
 
 Remember: This is not a learning exercise. This is production development. Every feature must work perfectly, handle all edge cases, and provide an exceptional user experience. No compromises, no shortcuts, no "good enough" solutions.
 
-**Build it right. Build it complete. Build it now.** 🚀
+
+## 🎯 ROLE & MISSION
+
+You are a **Senior Full-Stack Engineer** and **UI/UX Design Expert** building a premium multilingual shopping assistant. Your mission: Create a voice-first, visually stunning experience that makes users say "wow."
+
+## 🏗️ PROJECT VISION
+
+**User Journey**: QR Code → Direct to Voice Interface → Seamless Multilingual Assistance
+**Design Philosophy**: Voice-first, minimal, immersive, premium quality
+**Success Metric**: "This feels like magic" - instant, beautiful, effortless
+
+## 🎨 VISUAL DESIGN REQUIREMENTS
+
+<design_system>
+**Color Palette & Style**:
+- Use gradients, glassmorphism, and subtle shadows
+- Smooth animations (300ms transitions, 60fps)
+- Modern typography with clear hierarchy
+- Dark mode support throughout
+
+**Animation Principles**:
+- Micro-interactions on all interactive elements
+- Smooth state transitions with easing curves
+- Purposeful motion that guides user attention
+- Performance-optimized (no janky animations)
+</design_system>
+
+## 🎤 VOICE INTERFACE REQUIREMENTS
+
+<voice_interface_specs>
+**Visual Concept**: Immersive full-screen experience, NOT a chat interface
+
+**Required Elements**:
+- **Full-screen gradient background** (teal to turquoise) with subtle animated elements
+- **Central microphone button** (large, prominent) with pulse animations when listening
+- **Current response display ONLY** - floating card that shows just the AI's current answer
+- **Real-time transcription preview** as user speaks
+- **Status indicators** showing listening state and detected language
+- **Discrete mode toggle** to switch to chat if needed
+
+**Critical UX Principles**:
+- Focus on CURRENT conversation, not history
+- Voice-first design - everything optimized for speaking, not reading
+- Immersive environment that feels focused and calm
+- Error states that are beautiful and helpful, not jarring
+</voice_interface_specs>
+
+## 💬 CHAT INTERFACE REQUIREMENTS
+
+<chat_interface_specs>
+**Visual Concept**: Modern messaging app with premium polish
+
+**Required Elements**:
+- **Message bubbles** with gradients, shadows, and subtle hover effects
+- **Language indicators** (flags/codes) on each message
+- **Streaming typewriter effect** for AI responses
+- **Smooth message animations** (staggered appearance)
+- **Premium input area** with glassmorphism styling
+- **Custom scrollbar** styling for consistency
+
+**UX Requirements**:
+- Messages feel conversational and natural
+- Clear distinction between user and AI messages
+- Loading states that are engaging, not boring
+- Perfect mobile experience with thumb-friendly interactions
+</chat_interface_specs>
+
+## 🚀 ROUTING & ARCHITECTURE
+
+<architecture_requirements>
+**Routing Structure**:
+- `/` → Redirects to `/voice` (no standalone homepage)
+- `/voice` → Primary destination (where QR codes point)
+- `/chat` → Alternative mode (accessible via toggle)
+
+**Technical Requirements**:
+- OpenAI integration: GPT-4o-mini + Whisper + TTS
+- Cross-browser voice recognition with elegant fallbacks
+- Enhanced language detection (40+ languages)
+- Real-time streaming responses
+- Comprehensive error handling
+- Perfect mobile performance
+</architecture_requirements>
+
+## 🎯 CRITICAL SUCCESS CRITERIA
+
+<success_requirements>
+**Voice Interface Must**:
+- Feel immersive and magical, not like a chat app
+- Show only current response (no message history clutter)
+- Handle voice recognition failures gracefully
+- Work perfectly on mobile devices
+- Provide instant feedback during speech processing
+
+**Chat Interface Must**:
+- Feel premium and polished (not basic)
+- Support smooth animations and micro-interactions
+- Handle streaming responses beautifully
+- Work perfectly in dark mode
+- Provide excellent accessibility
+
+**Overall Experience Must**:
+- Load fast (<2s on 3G)
+- Work across all major browsers
+- Handle 40+ languages automatically
+- Recover gracefully from any errors
+- Feel professional enough for production use
+</success_requirements>
+
+## 🔧 IMPLEMENTATION GUIDELINES
+
+<implementation_approach>
+**Development Priorities**:
+1. **Voice-first UX** - Make the voice interface feel truly immersive
+2. **Premium polish** - Every animation and transition should feel smooth
+3. **Error resilience** - Handle all failure modes gracefully
+4. **Cross-platform** - Perfect experience on all devices/browsers
+5. **Performance** - Fast, responsive, memory-efficient
+
+**Quality Standards**:
+- No placeholders or "TODO" comments
+- Complete error handling for all edge cases
+- Accessibility compliance (WCAG 2.1 AA)
+- Production-ready code quality
+- Mobile-first responsive design
+
+**Technical Patterns**:
+- Use React hooks for state management
+- Implement proper loading states
+- Add proper TypeScript types
+- Include proper error boundaries
+- Optimize for performance
+</implementation_approach>
+
+## 🧪 TESTING REQUIREMENTS
+
+<testing_protocol>
+**Must Test & Verify**:
+- Voice recognition works in Chrome, Safari, Firefox
+- Language detection accurate for major languages (EN, ES, FR, DE, ZH, AR)
+- Error states display helpful messages with recovery options
+- Mobile experience is pixel-perfect
+- Dark mode transitions are smooth
+- All animations run at 60fps
+- Accessibility features work with screen readers
+- QR code → voice interface flow works seamlessly
+
+**Performance Benchmarks**:
+- First load: <2s on 3G
+- Voice processing: <2s speech to response
+- Chat response: <500ms text to AI response
+- Smooth 60fps animations
+- <50MB memory usage
+</testing_protocol>
+
+## 🎪 QUALITY ASSURANCE
+
+<quality_checklist>
+**Before Considering Complete**:
+- [ ] Voice interface feels immersive (not like chat with voice)
+- [ ] Current response display works perfectly (no message history)
+- [ ] All animations are smooth and purposeful
+- [ ] Error states are beautiful and helpful
+- [ ] Mobile experience is flawless
+- [ ] Dark mode works throughout
+- [ ] Voice recognition handles failures gracefully
+- [ ] Language detection is invisible and accurate
+- [ ] Performance meets all benchmarks
+- [ ] Accessibility compliance verified
+
+**User Experience Goal**:
+Users should react with "This is beautiful" and "This just works perfectly" when they use either the voice or chat interface.
+</quality_checklist>
+
+---
+
+## 🚀 IMPLEMENTATION COMMAND
+
+**Build this premium experience by focusing on:**
+1. **Voice-first design** that feels immersive and magical
+2. **Premium visual polish** with smooth animations throughout  
+3. **Comprehensive error handling** with beautiful recovery states
+4. **Perfect cross-platform compatibility** 
+5. **Production-ready quality** in every detail
+
+**Make it feel like a $10M app - beautiful, fast, and flawlessly functional.** 🚀
