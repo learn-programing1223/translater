@@ -30,22 +30,24 @@ export default function VoiceInterface() {
   
   const recordingTimerRef = useRef<NodeJS.Timeout | null>(null);
   const voiceManagerRef = useRef<VoiceRecognitionManager | null>(null);
-  const fadeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const currentAudioRef = useRef<HTMLAudioElement | null>(null);
+  const currentUtteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
-  // Clear current message after delay
-  useEffect(() => {
-    if (currentMessage && !isListening && !isProcessing) {
-      fadeTimeoutRef.current = setTimeout(() => {
-        setCurrentMessage(null);
-      }, 10000); // Clear after 10 seconds
+  // Function to stop any current speech
+  const stopCurrentSpeech = () => {
+    // Stop OpenAI TTS audio
+    if (currentAudioRef.current) {
+      currentAudioRef.current.pause();
+      currentAudioRef.current.currentTime = 0;
+      currentAudioRef.current = null;
     }
     
-    return () => {
-      if (fadeTimeoutRef.current) {
-        clearTimeout(fadeTimeoutRef.current);
-      }
-    };
-  }, [currentMessage, isListening, isProcessing]);
+    // Stop browser TTS
+    if (currentUtteranceRef.current) {
+      speechSynthesis.cancel();
+      currentUtteranceRef.current = null;
+    }
+  };
 
   useEffect(() => {
     // Check browser support on mount
@@ -507,7 +509,7 @@ export default function VoiceInterface() {
         </div>
 
         {/* Microphone Button Area */}
-        <div className="pb-12">
+        <div className="pb-24">
           <div className="flex flex-col items-center">
             {/* Recording Timer */}
             {isRecording && (
