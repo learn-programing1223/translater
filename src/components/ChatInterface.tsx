@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import MessageDisplay from './MessageDisplay';
 
 interface Message {
   id: string;
@@ -19,6 +20,15 @@ export default function ChatInterface() {
   const [isStreaming, setIsStreaming] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Helper function to format product information (same as MessageDisplay)
+  const formatProductInfo = (content: string) => {
+    let formattedContent = content;
+    formattedContent = formattedContent.replace(/\*\*([^*]+)\*\*/g, '<span class="font-semibold text-accent-700 bg-accent-50 px-1.5 py-0.5 rounded-md">$1</span>');
+    formattedContent = formattedContent.replace(/(\$\d+\.\d+)/g, '<span class="font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full text-sm">$1</span>');
+    formattedContent = formattedContent.replace(/\n/g, '<br />');
+    return formattedContent;
+  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -238,43 +248,41 @@ export default function ChatInterface() {
             className={`flex ${message.isUser ? 'justify-end' : 'justify-start'} animate-slide-up`}
             style={{ animationDelay: `${index * 50}ms` }}
           >
-            <div
-              className={`max-w-[80%] md:max-w-md rounded-2xl px-5 py-3 shadow-xl transform hover:scale-[1.02] transition-all duration-300 ${
-                message.isUser
-                  ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white'
-                  : 'glass text-gray-800 border border-gray-200'
-              }`}
-            >
-              <div className={`text-xs font-semibold mb-2 flex items-center gap-2 ${
-                message.isUser ? 'text-white/90' : 'text-gray-600'
-              }`}>
-                <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-[10px] font-bold ${
-                  message.isUser ? 'bg-white/30 text-white' : 'bg-gray-200 text-gray-700'
-                }`}>
-                  {getLanguageDisplay(message.language)}
-                </span>
-                <span>
-                  {message.isUser ? 'You' : 'Assistant'}
-                </span>
-              </div>
-              <div className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</div>
-            </div>
+            <MessageDisplay
+              content={message.content}
+              isUser={message.isUser}
+              language={message.language}
+            />
           </div>
         ))}
 
         {/* Streaming Message */}
         {isStreaming && streamingMessage && (
           <div className="flex justify-start animate-fade-in">
-            <div className="glass text-gray-800 rounded-2xl px-5 py-3 max-w-[80%] md:max-w-md shadow-xl border border-gray-200 animate-pulse-soft">
-              <div className="text-xs text-gray-600 font-semibold mb-2 flex items-center gap-2">
-                <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-gray-200 text-[10px] font-bold">
-                  {getLanguageDisplay(detectLanguage(streamingMessage))}
-                </span>
-                <span>Assistant</span>
-              </div>
-              <div className="text-sm leading-relaxed whitespace-pre-wrap">
-                {streamingMessage}
-                <span className="inline-block w-1 h-4 bg-gray-400 ml-1 animate-pulse" />
+            <div className="w-full max-w-2xl px-6">
+              <div className="bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl p-6 transform transition-all duration-500 animate-pulse-soft">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-gradient-to-br from-accent-500 to-accent-600 rounded-full flex items-center justify-center shadow-lg">
+                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-gray-700">Assistant</p>
+                      <span className="text-xs px-2 py-0.5 rounded-full font-medium text-accent-700 bg-accent-50 border border-accent-100">
+                        {getLanguageDisplay(detectLanguage(streamingMessage))}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div className="font-body leading-relaxed text-gray-800">
+                  <div 
+                    className="text-base leading-loose space-y-2"
+                    dangerouslySetInnerHTML={{ __html: formatProductInfo(streamingMessage) }}
+                  />
+                  <span className="inline-block w-1 h-4 bg-accent-500 ml-1 animate-pulse" />
+                </div>
               </div>
             </div>
           </div>

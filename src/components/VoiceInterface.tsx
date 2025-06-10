@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { detectLanguage } from '../lib/language-detection';
 import { checkVoiceSupport } from '../lib/audio-utils';
 import { VoiceRecognitionManager, type VoiceTranscriptionResult } from '../lib/VoiceRecognitionManager';
+import MessageDisplay from './MessageDisplay';
 
 interface VoiceMessage {
   id: string;
@@ -487,48 +488,13 @@ export default function VoiceInterface() {
 
           {/* Current Response Display */}
           {currentMessage && (
-            <div className="w-full max-w-2xl px-6 animate-fade-in">
-              <div className="bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl p-6 transform transition-all duration-500 hover:scale-[1.02]">
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-3">
-                    {currentMessage.isUser ? (
-                      <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                        </svg>
-                      </div>
-                    ) : (
-                      <div className="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center">
-                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg>
-                      </div>
-                    )}
-                    <div>
-                      <p className="text-sm font-medium text-gray-700">
-                        {currentMessage.isUser ? 'You' : 'Assistant'}
-                        <span className="ml-2 text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
-                          {getLanguageDisplay(currentMessage.language)}
-                        </span>
-                      </p>
-                    </div>
-                  </div>
-                  {!currentMessage.isUser && currentMessage.audioUrl && (
-                    <button
-                      onClick={() => playAudio(currentMessage.audioUrl!)}
-                      className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-                    >
-                      <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-                      </svg>
-                    </button>
-                  )}
-                </div>
-                <p className="text-base leading-relaxed text-gray-800 whitespace-pre-wrap">
-                  {currentMessage.content}
-                </p>
-              </div>
-            </div>
+            <MessageDisplay
+              content={currentMessage.content}
+              isUser={currentMessage.isUser}
+              language={currentMessage.language}
+              audioUrl={currentMessage.audioUrl}
+              onPlayAudio={playAudio}
+            />
           )}
 
           {/* Error Message */}

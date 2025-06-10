@@ -8,6 +8,11 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'display': ['Inter', 'SF Pro Display', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+        'body': ['Inter', 'SF Pro Text', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+        'mono': ['SF Mono', 'Monaco', 'Consolas', 'monospace'],
+      },
       colors: {
         primary: '#28C6B1',
         secondary: '#F1F3F5',
@@ -15,6 +20,18 @@ const config: Config = {
         'text-light': '#F8F9FA',
         error: '#DC2626',
         success: '#10B981',
+        accent: {
+          50: '#f0fdfa',
+          100: '#ccfbf1',
+          200: '#99f6e4',
+          300: '#5eead4',
+          400: '#2dd4bf',
+          500: '#14b8a6',
+          600: '#0d9488',
+          700: '#0f766e',
+          800: '#115e59',
+          900: '#134e4a',
+        },
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-out',
