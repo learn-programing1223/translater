@@ -98,6 +98,7 @@ export default function VoiceInterface() {
     return () => {
       document.removeEventListener('voiceRecognitionFallback', handleFallbackEvent);
       stopRecordingTimer();
+      stopCurrentSpeech(); // Stop any playing speech when component unmounts
     };
   }, []);
 
@@ -124,6 +125,9 @@ export default function VoiceInterface() {
   // Handle successful transcription from any source
   const handleTranscriptionSuccess = async (result: VoiceTranscriptionResult) => {
     try {
+      // Stop any current speech when new input starts
+      stopCurrentSpeech();
+      
       setIsProcessing(true);
       setError(null);
       setStatusMessage(`Transcribed via ${result.method}: "${result.text}"`);
@@ -185,6 +189,9 @@ export default function VoiceInterface() {
 
   // Start voice recognition using VoiceRecognitionManager
   const startRecording = async () => {
+    // Stop any current speech when starting new recording
+    stopCurrentSpeech();
+    
     // Check browser support
     if (!browserSupport?.mediaRecorder && !browserSupport?.webSpeech) {
       setError('Voice recognition not supported in this browser. Please use text input.');
@@ -251,6 +258,9 @@ export default function VoiceInterface() {
   // Handle manual input submission
   const handleManualInputSubmit = async () => {
     if (!manualInputValue.trim()) return;
+
+    // Stop any current speech when processing manual input
+    stopCurrentSpeech();
 
     try {
       await handleTranscriptionSuccess({
@@ -350,6 +360,9 @@ export default function VoiceInterface() {
 
   const generateSpeech = async (text: string, language: string, messageId: string) => {
     try {
+      // Stop any previous speech before starting new one
+      stopCurrentSpeech();
+      
       const response = await fetch('/api/tts', {
         method: 'POST',
         headers: {
@@ -367,14 +380,28 @@ export default function VoiceInterface() {
           setCurrentMessage(prev => prev ? { ...prev, audioUrl } : null);
         }
 
-        // Auto-play the response
+        // Auto-play the response and store reference
         const audio = new Audio(audioUrl);
+        currentAudioRef.current = audio;
+        
+        // Clear reference when audio ends
+        audio.addEventListener('ended', () => {
+          currentAudioRef.current = null;
+        });
+        
         audio.play().catch(console.error);
         
       } else {
         // Fallback to browser TTS
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = language;
+        currentUtteranceRef.current = utterance;
+        
+        // Clear reference when utterance ends
+        utterance.addEventListener('end', () => {
+          currentUtteranceRef.current = null;
+        });
+        
         speechSynthesis.speak(utterance);
       }
     } catch (error) {
@@ -382,12 +409,29 @@ export default function VoiceInterface() {
       // Fallback to browser TTS
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = language;
+      currentUtteranceRef.current = utterance;
+      
+      // Clear reference when utterance ends
+      utterance.addEventListener('end', () => {
+        currentUtteranceRef.current = null;
+      });
+      
       speechSynthesis.speak(utterance);
     }
   };
 
   const playAudio = (audioUrl: string) => {
+    // Stop any current speech before starting new one
+    stopCurrentSpeech();
+    
     const audio = new Audio(audioUrl);
+    currentAudioRef.current = audio;
+    
+    // Clear reference when audio ends
+    audio.addEventListener('ended', () => {
+      currentAudioRef.current = null;
+    });
+    
     audio.play().catch(console.error);
   };
 
