@@ -443,32 +443,21 @@ export default function VoiceInterface() {
   };
 
   return (
-    <div className="relative h-screen overflow-hidden bg-gradient-aurora animate-aurora">
-      {/* Premium Animated Background */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-transparent to-black/30" />
+    <div className="relative min-h-screen bg-premium">
+      {/* Premium Dark Background */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/40" />
         
-        {/* Enhanced Floating Elements */}
-        <div className="absolute top-20 left-10 w-40 h-40 bg-white/8 rounded-full blur-3xl animate-float" />
-        <div className="absolute top-1/4 right-20 w-56 h-56 bg-purple-400/15 rounded-full blur-3xl animate-float-delayed" />
-        <div className="absolute bottom-1/3 left-1/4 w-48 h-48 bg-cyan-400/12 rounded-full blur-3xl animate-float-slow" />
-        <div className="absolute bottom-20 right-1/5 w-32 h-32 bg-pink-400/10 rounded-full blur-2xl animate-float" />
-        <div className="absolute top-1/2 left-1/6 w-36 h-36 bg-blue-400/8 rounded-full blur-2xl animate-float-delayed" />
-        
-        {/* Geometric Elements */}
-        <div className="absolute top-1/4 left-1/3 w-20 h-20 border border-white/15 rounded-2xl rotate-45 animate-float-slow" />
-        <div className="absolute bottom-1/4 right-1/3 w-16 h-16 border border-purple-300/20 rounded-full animate-float" />
-        <div className="absolute top-2/3 left-1/5 w-12 h-12 border border-cyan-300/25 rounded-lg rotate-12 animate-float-delayed" />
-        
-        {/* Radial Gradient Overlay */}
-        <div className="absolute inset-0 bg-radial-gradient from-transparent via-transparent to-black/10" />
+        {/* Subtle glow effects */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '8s' }} />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary-dim/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s', animationDuration: '8s' }} />
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 flex flex-col h-full">
+      <div className="relative z-10 flex flex-col min-h-screen">
         {/* Premium Header */}
         <div className="text-center pt-8 pb-4">
-          <div className="inline-flex items-center justify-center w-16 h-16 mb-4 glass-premium rounded-2xl shadow-premium">
+          <div className="inline-flex items-center justify-center w-16 h-16 mb-4 glass rounded-2xl ">
             <svg className="w-8 h-8 text-gradient" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
             </svg>
@@ -478,32 +467,32 @@ export default function VoiceInterface() {
         </div>
 
         {/* Status Area */}
-        <div className="flex-1 flex flex-col items-center justify-center px-6">
+        <div className="flex-1 flex flex-col items-center justify-center px-6 py-8">
           {/* Enhanced Status Display */}
-          <div className="text-center mb-16 animate-fade-in">
+          <div className="text-center mb-8 animate-fade-in">
             {isListening || isRecording ? (
-              <div className="glass-premium rounded-3xl px-8 py-6 shadow-premium">
+              <div className="glass rounded-3xl px-8 py-6 ">
                 <div className="flex items-center justify-center gap-3 mb-4">
                   <div className="w-3 h-3 bg-red-400 rounded-full animate-pulse" />
-                  <h2 className="text-2xl font-light text-gray-800 animate-pulse">
+                  <h2 className="text-2xl font-light text-white animate-pulse">
                     {isRecording ? 'Listening...' : 'Initializing...'}
                   </h2>
                 </div>
                 {detectedLanguage && detectedLanguage !== 'en' && (
-                  <p className="text-base text-gray-600 font-medium">
+                  <p className="text-base text-secondary font-medium">
                     Language: <span className="text-primary font-semibold">{getLanguageDisplay(detectedLanguage)}</span>
                   </p>
                 )}
               </div>
             ) : isProcessing ? (
-              <div className="glass-premium rounded-3xl px-8 py-6 shadow-premium">
+              <div className="glass rounded-3xl px-8 py-6 ">
                 <div className="flex items-center justify-center gap-3">
                   <div className="flex space-x-1">
                     <div className="w-2 h-2 bg-gradient-primary rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
                     <div className="w-2 h-2 bg-gradient-accent rounded-full animate-bounce" style={{ animationDelay: '200ms' }} />
                     <div className="w-2 h-2 bg-gradient-secondary rounded-full animate-bounce" style={{ animationDelay: '400ms' }} />
                   </div>
-                  <h2 className="text-2xl font-light text-gray-800">
+                  <h2 className="text-2xl font-light text-white">
                     Processing...
                   </h2>
                 </div>
@@ -529,7 +518,8 @@ export default function VoiceInterface() {
                   ].map((lang, index) => (
                     <div
                       key={index}
-                      className={`glass-premium px-3 py-2 rounded-full text-sm font-medium text-gray-700 animate-scale-in animation-delay-${index * 100}`}
+                      className="glass px-3 py-2 rounded-full text-sm font-medium text-white/80 animate-scale-in"
+                      style={{ animationDelay: `${index * 100}ms` }}
                     >
                       {lang.flag} {lang.text}
                     </div>
@@ -541,7 +531,7 @@ export default function VoiceInterface() {
 
           {/* Current Response Display */}
           {currentMessage && (
-            <div className="max-w-2xl mx-auto animate-scale-in">
+            <div className="w-full mt-8 animate-fade-in">
               <MessageDisplay
                 content={currentMessage.content}
                 isUser={currentMessage.isUser}
@@ -555,9 +545,9 @@ export default function VoiceInterface() {
           {/* Enhanced Error Message */}
           {error && (
             <div className="absolute top-8 left-1/2 transform -translate-x-1/2 animate-slide-down z-50">
-              <div className="glass-premium bg-red-50/90 border border-red-200 text-red-800 px-6 py-4 rounded-2xl shadow-premium flex items-center gap-3 max-w-sm">
-                <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
-                  <svg className="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="glass bg-red-900/20 border border-red-500/30 text-red-400 px-6 py-4 rounded-2xl flex items-center gap-3 max-w-sm">
+                <div className="w-8 h-8 bg-red-500/20 rounded-full flex items-center justify-center">
+                  <svg className="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
@@ -581,11 +571,11 @@ export default function VoiceInterface() {
             {/* Recording Timer */}
             {isRecording && (
               <div className="mb-8 text-center animate-fade-in">
-                <div className="glass-premium px-6 py-3 rounded-2xl shadow-lg">
-                  <div className="text-3xl font-light text-gray-800 font-secondary">
+                <div className="glass px-6 py-3 rounded-2xl shadow-lg">
+                  <div className="text-3xl font-light text-white font-secondary">
                     {formatTime(recordingTime)}
                   </div>
-                  <div className="text-xs text-gray-600 font-medium mt-1">Recording</div>
+                  <div className="text-xs text-secondary font-medium mt-1">Recording</div>
                 </div>
               </div>
             )}
@@ -614,10 +604,10 @@ export default function VoiceInterface() {
                 disabled={permissionStatus === 'denied' || (!browserSupport?.mediaRecorder && !browserSupport?.webSpeech)}
                 className={`relative w-28 h-28 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110 active:scale-95 ${
                   isRecording
-                    ? 'bg-gradient-to-br from-red-500 to-red-600 shadow-premium'
+                    ? 'bg-gradient-to-br from-red-500 to-red-600 '
                     : isProcessing
-                    ? 'bg-gradient-to-br from-yellow-500 to-orange-500 shadow-premium'
-                    : 'bg-gradient-premium shadow-premium hover-glow'
+                    ? 'bg-gradient-to-br from-yellow-500 to-orange-500 '
+                    : 'bg-gradient-premium  hover-glow'
                 } ${
                   permissionStatus === 'denied' || (!browserSupport?.mediaRecorder && !browserSupport?.webSpeech)
                     ? 'opacity-50 cursor-not-allowed'
@@ -651,7 +641,7 @@ export default function VoiceInterface() {
             {/* Enhanced Permission/Status Messages */}
             <div className="mt-8 text-center">
               {permissionStatus === 'denied' && (
-                <div className="glass-premium px-6 py-4 rounded-2xl shadow-lg max-w-sm mx-auto animate-fade-in">
+                <div className="glass px-6 py-4 rounded-2xl shadow-lg max-w-sm mx-auto animate-fade-in">
                   <div className="flex items-center gap-3 mb-2">
                     <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
                       <svg className="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -659,24 +649,24 @@ export default function VoiceInterface() {
                       </svg>
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-800">Microphone Access Denied</p>
-                      <p className="text-sm text-gray-600">Please enable in browser settings</p>
+                      <p className="font-semibold text-white">Microphone Access Denied</p>
+                      <p className="text-sm text-secondary">Please enable in browser settings</p>
                     </div>
                   </div>
                 </div>
               )}
 
               {browserSupport && !browserSupport.mediaRecorder && !browserSupport.webSpeech && (
-                <div className="glass-premium px-6 py-4 rounded-2xl shadow-lg max-w-sm mx-auto animate-fade-in">
+                <div className="glass px-6 py-4 rounded-2xl shadow-lg max-w-sm mx-auto animate-fade-in">
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
-                      <svg className="w-4 h-4 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="w-8 h-8 bg-yellow-500/20 rounded-full flex items-center justify-center">
+                      <svg className="w-4 h-4 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
                       </svg>
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-800">Voice Not Supported</p>
-                      <p className="text-sm text-gray-600">Try Chrome, Safari, or Edge</p>
+                      <p className="font-semibold text-white">Voice Not Supported</p>
+                      <p className="text-sm text-secondary">Try Chrome, Safari, or Edge</p>
                     </div>
                   </div>
                 </div>
@@ -700,17 +690,17 @@ export default function VoiceInterface() {
             {/* Enhanced Manual Input Fallback */}
             {showManualInput && (
               <div className="absolute bottom-32 left-1/2 transform -translate-x-1/2 w-full max-w-lg px-6 animate-scale-in z-40">
-                <div className="glass-premium rounded-3xl shadow-premium p-6 border border-white/30">
+                <div className="glass rounded-3xl  p-6 border border-white/30">
                   <div className="text-center mb-4">
-                    <div className="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                    <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-3">
                       <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                       </svg>
                     </div>
-                    <p className="text-gray-800 text-sm font-semibold mb-1">
+                    <p className="text-white text-sm font-semibold mb-1">
                       Voice Recognition Unavailable
                     </p>
-                    <p className="text-gray-600 text-xs">
+                    <p className="text-secondary text-xs">
                       Type your message instead
                     </p>
                   </div>
@@ -722,7 +712,7 @@ export default function VoiceInterface() {
                       onChange={(e) => setManualInputValue(e.target.value)}
                       onKeyPress={(e) => e.key === 'Enter' && handleManualInputSubmit()}
                       placeholder="Type your message in any language..."
-                      className="flex-1 px-4 py-3 glass border border-white/30 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all"
+                      className="flex-1 px-4 py-3 glass border border-glass-border rounded-xl text-sm text-white placeholder-secondary bg-surface/50 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all"
                       autoFocus
                     />
                     <button
@@ -743,7 +733,7 @@ export default function VoiceInterface() {
                   {/* Close Button */}
                   <button
                     onClick={() => setShowManualInput(false)}
-                    className="absolute top-3 right-3 p-1 text-gray-400 hover:text-gray-600 transition-colors"
+                    className="absolute top-3 right-3 p-1 text-gray-400 hover:text-secondary transition-colors"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />

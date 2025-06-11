@@ -50,11 +50,11 @@ export default function MessageDisplay({ content, isUser, language, audioUrl, on
   const formattedContent = formatProductInfo(content);
 
   return (
-    <div className="w-full max-w-2xl px-4 md:px-6 animate-fade-in">
+    <div className="w-full max-w-2xl mx-auto px-4 md:px-6 animate-fade-in">
       <div className={`rounded-2xl md:rounded-3xl p-4 md:p-6 transform transition-all duration-500 ${
         isUser 
-          ? 'bg-gradient-primary text-background ml-auto max-w-sm md:max-w-md shadow-glow'
-          : 'glass text-white'
+          ? 'bg-gradient-primary text-background max-w-sm md:max-w-md shadow-glow mx-auto'
+          : 'glass text-white mx-auto'
       }`}>
         {/* Header */}
         <div className="flex items-center justify-between mb-3 md:mb-4">

@@ -1,5 +1,4 @@
 import ChatInterface from '@/components/ChatInterface';
-import Navigation from '@/components/Navigation';
 
 export default function ChatPage() {
   return (
@@ -7,7 +6,6 @@ export default function ChatPage() {
       <div className="flex-1 flex flex-col">
         <ChatInterface />
       </div>
-      <Navigation />
     </div>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import MessageDisplay from './MessageDisplay';
+import Navigation from './Navigation';
 
 interface Message {
   id: string;
@@ -248,7 +249,7 @@ export default function ChatInterface() {
       </div>
 
       {/* Messages Container */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-6 relative z-10">
+      <div className="flex-1 overflow-y-auto p-6 space-y-6 relative z-10" style={{paddingBottom: '240px'}}>
         {messages.length === 0 && (
           <div className="text-center mt-16 animate-fade-in">
             <div className="inline-flex items-center justify-center w-28 h-28 mb-8 glass-premium rounded-3xl shadow-premium hover-glow">
@@ -378,10 +379,10 @@ export default function ChatInterface() {
       </div>
 
       {/* Premium Input Form */}
-      <div className="relative z-10">
-        <div className="glass-premium border-t border-white/20 shadow-premium">
+      <div className="fixed bottom-20 left-0 right-0 z-20">
+        <div className="glass-premium border-t border-glass-border">
           <div className="p-6">
-            <form onSubmit={handleSubmit} className="flex gap-4">
+            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
               <div className="relative flex-1">
                 <input
                   ref={inputRef}
@@ -389,26 +390,22 @@ export default function ChatInterface() {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   placeholder="Ask about products in any language..."
-                  className="w-full glass border-2 border-glass-border rounded-2xl px-6 py-4 text-white placeholder-secondary bg-surface/50 focus:outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary/50 transition-all duration-300 shadow-lg hover:shadow-xl text-base"
+                  className="w-full glass border-2 border-glass-border rounded-2xl px-6 pr-20 py-4 text-white placeholder-secondary bg-surface/50 focus:outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary/50 transition-all duration-300 shadow-lg hover:shadow-xl text-base"
                   disabled={isLoading || isStreaming}
                 />
                 {inputValue && (
-                  <div className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-primary bg-primary/10 px-3 py-1.5 rounded-full font-semibold animate-fade-in border border-primary/20">
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-primary bg-surface/80 backdrop-blur-sm px-2 py-1 rounded-md font-semibold animate-fade-in border border-primary/30">
                     {getLanguageDisplay(detectLanguage(inputValue))}
                   </div>
                 )}
                 
-                {/* Input Enhancement Icons */}
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                  <span className="text-xs text-secondary font-medium">100+ Languages</span>
-                </div>
+                {/* Remove the 100+ Languages indicator entirely to prevent overlap */}
               </div>
               
               <button
                 type="submit"
                 disabled={!inputValue.trim() || isLoading || isStreaming}
-                className="btn-primary min-w-[120px] disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-3"
+                className="btn-primary w-full sm:w-auto sm:min-w-[120px] disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-3"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
                 <div className="relative flex items-center gap-2">
@@ -452,6 +449,9 @@ export default function ChatInterface() {
           </div>
         </div>
       </div>
+      
+      {/* Navigation */}
+      <Navigation />
     </div>
   );
 }
