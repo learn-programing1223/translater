@@ -443,71 +443,128 @@ export default function VoiceInterface() {
   };
 
   return (
-    <div className="relative h-screen overflow-hidden bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-500">
-      {/* Animated Background Elements */}
+    <div className="relative h-screen overflow-hidden bg-gradient-aurora animate-aurora">
+      {/* Premium Animated Background */}
       <div className="absolute inset-0">
-        {/* Floating circles */}
-        <div className="absolute top-20 left-10 w-32 h-32 bg-white/10 rounded-full blur-xl animate-float" />
-        <div className="absolute top-40 right-20 w-48 h-48 bg-white/10 rounded-full blur-2xl animate-float-delayed" />
-        <div className="absolute bottom-32 left-1/3 w-40 h-40 bg-white/10 rounded-full blur-xl animate-float-slow" />
-        <div className="absolute bottom-20 right-1/4 w-24 h-24 bg-white/10 rounded-full blur-lg animate-float" />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-transparent to-black/30" />
+        
+        {/* Enhanced Floating Elements */}
+        <div className="absolute top-20 left-10 w-40 h-40 bg-white/8 rounded-full blur-3xl animate-float" />
+        <div className="absolute top-1/4 right-20 w-56 h-56 bg-purple-400/15 rounded-full blur-3xl animate-float-delayed" />
+        <div className="absolute bottom-1/3 left-1/4 w-48 h-48 bg-cyan-400/12 rounded-full blur-3xl animate-float-slow" />
+        <div className="absolute bottom-20 right-1/5 w-32 h-32 bg-pink-400/10 rounded-full blur-2xl animate-float" />
+        <div className="absolute top-1/2 left-1/6 w-36 h-36 bg-blue-400/8 rounded-full blur-2xl animate-float-delayed" />
+        
+        {/* Geometric Elements */}
+        <div className="absolute top-1/4 left-1/3 w-20 h-20 border border-white/15 rounded-2xl rotate-45 animate-float-slow" />
+        <div className="absolute bottom-1/4 right-1/3 w-16 h-16 border border-purple-300/20 rounded-full animate-float" />
+        <div className="absolute top-2/3 left-1/5 w-12 h-12 border border-cyan-300/25 rounded-lg rotate-12 animate-float-delayed" />
+        
+        {/* Radial Gradient Overlay */}
+        <div className="absolute inset-0 bg-radial-gradient from-transparent via-transparent to-black/10" />
       </div>
 
       {/* Main Content */}
       <div className="relative z-10 flex flex-col h-full">
+        {/* Premium Header */}
+        <div className="text-center pt-8 pb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 mb-4 glass-premium rounded-2xl shadow-premium">
+            <svg className="w-8 h-8 text-gradient" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+            </svg>
+          </div>
+          <h1 className="text-2xl font-bold text-white font-secondary mb-1">Voice Assistant</h1>
+          <p className="text-sm text-white/70 font-medium">AI Powered • 100+ Languages</p>
+        </div>
+
         {/* Status Area */}
         <div className="flex-1 flex flex-col items-center justify-center px-6">
-          {/* Status Text */}
-          <div className="text-center mb-12 animate-fade-in">
+          {/* Enhanced Status Display */}
+          <div className="text-center mb-16 animate-fade-in">
             {isListening || isRecording ? (
-              <>
-                <h2 className="text-3xl font-light text-white mb-3 animate-pulse">
-                  {isRecording ? 'Listening...' : 'Initializing...'}
-                </h2>
+              <div className="glass-premium rounded-3xl px-8 py-6 shadow-premium">
+                <div className="flex items-center justify-center gap-3 mb-4">
+                  <div className="w-3 h-3 bg-red-400 rounded-full animate-pulse" />
+                  <h2 className="text-2xl font-light text-gray-800 animate-pulse">
+                    {isRecording ? 'Listening...' : 'Initializing...'}
+                  </h2>
+                </div>
                 {detectedLanguage && detectedLanguage !== 'en' && (
-                  <p className="text-lg text-white/80">
-                    Detected: {getLanguageDisplay(detectedLanguage)}
+                  <p className="text-base text-gray-600 font-medium">
+                    Language: <span className="text-primary font-semibold">{getLanguageDisplay(detectedLanguage)}</span>
                   </p>
                 )}
-              </>
+              </div>
             ) : isProcessing ? (
-              <h2 className="text-3xl font-light text-white animate-pulse">
-                Processing...
-              </h2>
+              <div className="glass-premium rounded-3xl px-8 py-6 shadow-premium">
+                <div className="flex items-center justify-center gap-3">
+                  <div className="flex space-x-1">
+                    <div className="w-2 h-2 bg-gradient-primary rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                    <div className="w-2 h-2 bg-gradient-accent rounded-full animate-bounce" style={{ animationDelay: '200ms' }} />
+                    <div className="w-2 h-2 bg-gradient-secondary rounded-full animate-bounce" style={{ animationDelay: '400ms' }} />
+                  </div>
+                  <h2 className="text-2xl font-light text-gray-800">
+                    Processing...
+                  </h2>
+                </div>
+              </div>
             ) : (
-              <>
-                <h2 className="text-3xl font-light text-white mb-3">
-                  Tap the microphone to start
+              <div className="space-y-6">
+                <h2 className="text-4xl md:text-5xl font-light text-white mb-4 font-secondary">
+                  Ready to Listen
                 </h2>
-                <p className="text-lg text-white/80">
-                  Speak in any language
+                <p className="text-xl text-white/90 mb-8 max-w-md mx-auto leading-relaxed">
+                  Speak naturally in any language
                 </p>
-              </>
+                
+                {/* Language Examples */}
+                <div className="flex flex-wrap justify-center gap-3 max-w-lg mx-auto">
+                  {[
+                    { text: "English", flag: "🇺🇸" },
+                    { text: "Español", flag: "🇪🇸" },
+                    { text: "Français", flag: "🇫🇷" },
+                    { text: "中文", flag: "🇨🇳" },
+                    { text: "العربية", flag: "🇸🇦" },
+                    { text: "हिन्दी", flag: "🇮🇳" }
+                  ].map((lang, index) => (
+                    <div
+                      key={index}
+                      className={`glass-premium px-3 py-2 rounded-full text-sm font-medium text-gray-700 animate-scale-in animation-delay-${index * 100}`}
+                    >
+                      {lang.flag} {lang.text}
+                    </div>
+                  ))}
+                </div>
+              </div>
             )}
           </div>
 
           {/* Current Response Display */}
           {currentMessage && (
-            <MessageDisplay
-              content={currentMessage.content}
-              isUser={currentMessage.isUser}
-              language={currentMessage.language}
-              audioUrl={currentMessage.audioUrl}
-              onPlayAudio={playAudio}
-            />
+            <div className="max-w-2xl mx-auto animate-scale-in">
+              <MessageDisplay
+                content={currentMessage.content}
+                isUser={currentMessage.isUser}
+                language={currentMessage.language}
+                audioUrl={currentMessage.audioUrl}
+                onPlayAudio={playAudio}
+              />
+            </div>
           )}
 
-          {/* Error Message */}
+          {/* Enhanced Error Message */}
           {error && (
-            <div className="absolute top-8 left-1/2 transform -translate-x-1/2 animate-slide-down">
-              <div className="bg-red-500/90 backdrop-blur-sm text-white px-6 py-3 rounded-2xl shadow-lg flex items-center gap-3">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span className="text-sm font-medium">{error}</span>
+            <div className="absolute top-8 left-1/2 transform -translate-x-1/2 animate-slide-down z-50">
+              <div className="glass-premium bg-red-50/90 border border-red-200 text-red-800 px-6 py-4 rounded-2xl shadow-premium flex items-center gap-3 max-w-sm">
+                <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                  <svg className="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <span className="text-sm font-medium flex-1">{error}</span>
                 <button
                   onClick={() => setError(null)}
-                  className="ml-2 hover:opacity-70 transition-opacity"
+                  className="ml-2 text-red-400 hover:text-red-300 transition-colors p-1 rounded-full hover:bg-red-500/20"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
@@ -518,115 +575,180 @@ export default function VoiceInterface() {
           )}
         </div>
 
-        {/* Microphone Button Area */}
-        <div className="pb-24">
+        {/* Enhanced Microphone Button Area */}
+        <div className="pb-32">
           <div className="flex flex-col items-center">
             {/* Recording Timer */}
             {isRecording && (
-              <div className="mb-6 text-center animate-fade-in">
-                <div className="text-2xl font-light text-white">{formatTime(recordingTime)}</div>
+              <div className="mb-8 text-center animate-fade-in">
+                <div className="glass-premium px-6 py-3 rounded-2xl shadow-lg">
+                  <div className="text-3xl font-light text-gray-800 font-secondary">
+                    {formatTime(recordingTime)}
+                  </div>
+                  <div className="text-xs text-gray-600 font-medium mt-1">Recording</div>
+                </div>
               </div>
             )}
 
-            {/* Microphone Button with Pulse Rings */}
+            {/* Premium Microphone Button with Advanced Effects */}
             <div className="relative">
-              {/* Pulse Rings */}
+              {/* Enhanced Pulse Rings */}
               {(isListening || isRecording) && (
                 <>
-                  <div className="absolute inset-0 -m-8 rounded-full bg-white/20 animate-ping" />
-                  <div className="absolute inset-0 -m-4 rounded-full bg-white/30 animate-ping animation-delay-200" />
+                  <div className="absolute inset-0 -m-12 rounded-full bg-gradient-primary opacity-20 animate-ping" />
+                  <div className="absolute inset-0 -m-8 rounded-full bg-gradient-accent opacity-30 animate-ping animation-delay-200" />
+                  <div className="absolute inset-0 -m-4 rounded-full bg-gradient-secondary opacity-40 animate-ping animation-delay-300" />
                 </>
               )}
               
-              {/* Main Button */}
+              {/* Glow Effect */}
+              <div className={`absolute inset-0 rounded-full transition-all duration-500 ${
+                isRecording ? 'shadow-[0_0_60px_rgba(239,68,68,0.6)]' : 
+                isProcessing ? 'shadow-[0_0_60px_rgba(245,158,11,0.6)]' :
+                'shadow-[0_0_40px_rgba(99,102,241,0.4)] hover:shadow-[0_0_80px_rgba(99,102,241,0.6)]'
+              }`} />
+              
+              {/* Main Premium Button */}
               <button
                 onClick={isRecording ? stopRecording : startRecording}
                 disabled={permissionStatus === 'denied' || (!browserSupport?.mediaRecorder && !browserSupport?.webSpeech)}
-                className={`relative w-24 h-24 rounded-full flex items-center justify-center transition-all transform hover:scale-110 active:scale-95 ${
+                className={`relative w-28 h-28 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110 active:scale-95 ${
                   isRecording
-                    ? 'bg-red-500 shadow-2xl shadow-red-500/50'
+                    ? 'bg-gradient-to-br from-red-500 to-red-600 shadow-premium'
                     : isProcessing
-                    ? 'bg-yellow-500 shadow-2xl shadow-yellow-500/50'
-                    : 'bg-white shadow-2xl hover:shadow-3xl'
+                    ? 'bg-gradient-to-br from-yellow-500 to-orange-500 shadow-premium'
+                    : 'bg-gradient-premium shadow-premium hover-glow'
                 } ${
                   permissionStatus === 'denied' || (!browserSupport?.mediaRecorder && !browserSupport?.webSpeech)
                     ? 'opacity-50 cursor-not-allowed'
                     : 'cursor-pointer'
                 }`}
               >
+                {/* Button Content */}
                 {isRecording ? (
-                  <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z" />
-                  </svg>
+                  <div className="flex flex-col items-center">
+                    <div className="w-6 h-6 bg-white rounded-sm mb-1" />
+                    <div className="text-xs text-white font-medium">Stop</div>
+                  </div>
                 ) : isProcessing ? (
-                  <svg className="w-10 h-10 text-white animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                  </svg>
+                  <div className="flex flex-col items-center">
+                    <svg className="w-8 h-8 text-white animate-spin mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    <div className="text-xs text-white font-medium">AI</div>
+                  </div>
                 ) : (
-                  <svg className="w-10 h-10 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-                  </svg>
+                  <div className="flex flex-col items-center">
+                    <svg className="w-10 h-10 text-white mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                    </svg>
+                    <div className="text-xs text-white font-medium">Speak</div>
+                  </div>
                 )}
               </button>
             </div>
 
-            {/* Permission/Status Messages */}
-            <div className="mt-6 text-center">
+            {/* Enhanced Permission/Status Messages */}
+            <div className="mt-8 text-center">
               {permissionStatus === 'denied' && (
-                <div className="text-white/90 text-sm animate-fade-in">
-                  <p className="font-medium">Microphone access denied</p>
-                  <p className="opacity-80">Please enable in browser settings</p>
+                <div className="glass-premium px-6 py-4 rounded-2xl shadow-lg max-w-sm mx-auto animate-fade-in">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                      <svg className="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636m12.728 12.728L18.364 5.636M5.636 18.364l12.728-12.728" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-800">Microphone Access Denied</p>
+                      <p className="text-sm text-gray-600">Please enable in browser settings</p>
+                    </div>
+                  </div>
                 </div>
               )}
 
               {browserSupport && !browserSupport.mediaRecorder && !browserSupport.webSpeech && (
-                <div className="text-white/90 text-sm animate-fade-in">
-                  <p className="font-medium">Voice recognition not supported</p>
-                  <p className="opacity-80">Try using Chrome, Safari, or Edge</p>
+                <div className="glass-premium px-6 py-4 rounded-2xl shadow-lg max-w-sm mx-auto animate-fade-in">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
+                      <svg className="w-4 h-4 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-800">Voice Not Supported</p>
+                      <p className="text-sm text-gray-600">Try Chrome, Safari, or Edge</p>
+                    </div>
+                  </div>
                 </div>
               )}
 
-              {/* Browser Support Indicators */}
+              {/* Enhanced Browser Support Indicators */}
               {browserSupport && (isListening || isRecording) && (
-                <div className="mt-4 flex justify-center gap-6 text-xs text-white/70">
-                  <span className="flex items-center gap-1">
-                    <div className={`w-2 h-2 rounded-full ${browserSupport.mediaRecorder ? 'bg-green-400' : 'bg-red-400'}`} />
-                    Recording
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <div className={`w-2 h-2 rounded-full ${browserSupport.webSpeech ? 'bg-green-400' : 'bg-red-400'}`} />
-                    Speech
-                  </span>
+                <div className="mt-6 flex justify-center gap-8">
+                  <div className="flex items-center gap-2">
+                    <div className={`w-3 h-3 rounded-full ${browserSupport.mediaRecorder ? 'bg-green-400' : 'bg-red-400'} animate-pulse`} />
+                    <span className="text-sm text-white/80 font-medium">Recording</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className={`w-3 h-3 rounded-full ${browserSupport.webSpeech ? 'bg-green-400' : 'bg-red-400'} animate-pulse`} />
+                    <span className="text-sm text-white/80 font-medium">Speech AI</span>
+                  </div>
                 </div>
               )}
             </div>
 
-            {/* Manual Input Fallback */}
+            {/* Enhanced Manual Input Fallback */}
             {showManualInput && (
-              <div className="absolute bottom-32 left-1/2 transform -translate-x-1/2 w-full max-w-md px-6 animate-slide-up">
-                <div className="bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl p-5">
-                  <p className="text-center text-gray-700 text-sm mb-3 font-medium">
-                    Voice recognition isn't working. Type your message:
-                  </p>
+              <div className="absolute bottom-32 left-1/2 transform -translate-x-1/2 w-full max-w-lg px-6 animate-scale-in z-40">
+                <div className="glass-premium rounded-3xl shadow-premium p-6 border border-white/30">
+                  <div className="text-center mb-4">
+                    <div className="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                      <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                      </svg>
+                    </div>
+                    <p className="text-gray-800 text-sm font-semibold mb-1">
+                      Voice Recognition Unavailable
+                    </p>
+                    <p className="text-gray-600 text-xs">
+                      Type your message instead
+                    </p>
+                  </div>
+                  
                   <div className="flex gap-3">
                     <input
                       type="text"
                       value={manualInputValue}
                       onChange={(e) => setManualInputValue(e.target.value)}
                       onKeyPress={(e) => e.key === 'Enter' && handleManualInputSubmit()}
-                      placeholder="Type your message here..."
-                      className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="Type your message in any language..."
+                      className="flex-1 px-4 py-3 glass border border-white/30 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all"
                       autoFocus
                     />
                     <button
                       onClick={handleManualInputSubmit}
                       disabled={!manualInputValue.trim() || isProcessing}
-                      className="px-6 py-3 bg-blue-500 text-white rounded-xl text-sm font-medium hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      className="px-6 py-3 bg-gradient-primary text-white rounded-xl text-sm font-medium hover-lift disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg"
                     >
-                      Send
+                      {isProcessing ? (
+                        <svg className="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                      ) : (
+                        'Send'
+                      )}
                     </button>
                   </div>
+                  
+                  {/* Close Button */}
+                  <button
+                    onClick={() => setShowManualInput(false)}
+                    className="absolute top-3 right-3 p-1 text-gray-400 hover:text-gray-600 transition-colors"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
                 </div>
               </div>
             )}

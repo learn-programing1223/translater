@@ -3,7 +3,7 @@ import Navigation from '@/components/Navigation';
 
 export default function VoicePage() {
   return (
-    <div className="relative h-screen flex flex-col">
+    <div className="relative h-screen bg-gradient-dark flex flex-col">
       <div className="flex-1 relative">
         <VoiceInterface />
       </div>
